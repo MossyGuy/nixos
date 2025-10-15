@@ -5,11 +5,9 @@
     brrtfetch.url = "github:MossyGuy/brrtfetch";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    stylix.url = "github:nix-community/stylix";
-    stylix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, brrtfetch, stylix, ... } @ inputs: let
+  outputs = { self, nixpkgs, home-manager, zen-browser, brrtfetch, ... } @ inputs: let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };      
      
@@ -24,7 +22,6 @@
 	  specialArgs = { inherit inputs combinedPkgs; };
 	  modules = [
             ./configuration.nix 
-            stylix.nixosModules.stylix 
             home-manager.nixosModules.home-manager {
               home-manager = {
                 useGlobalPkgs = true;

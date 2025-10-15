@@ -47,9 +47,6 @@
     portalPackage = combinedPkgs.xdg-desktop-portal-hyprland;
   };  
 
-  # Stylix
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/chalk.yaml";
-
   # Keyboard layout
   console.keyMap = "slovene";
   services.xserver.xkb = {
