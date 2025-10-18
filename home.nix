@@ -1,6 +1,7 @@
-{ config, pkgs, combinedPkgs, ...}:
+{ config, pkgs, combinedPkgs, mango, ...}:
 
 {
+  imports = [ mango.hmModules.mango ];
   home.username = "anon";
   home.homeDirectory = "/home/anon";
   home.stateVersion = "25.05";
@@ -8,6 +9,16 @@
   home.packages = with combinedPkgs; [
     gnomeExtensions.dash-to-dock
   ];  
+
+  wayland.windowManager.mango = {
+    enable = true;
+    settings = ''
+    
+    '';
+    autostart_sh = ''
+
+    '';
+  };
 
   dconf.settings = {
     "org/gnome/shell" = {

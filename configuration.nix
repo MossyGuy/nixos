@@ -72,18 +72,16 @@
     isNormalUser = true;
     description = "anon";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
+    packages = with combinedPkgs; [
     ];
   };
 
   # Packages
   nixpkgs.config.allowUnfree = true;
-  environment.systemPackages = with combinedPkgs; [ # with pkgs
+  environment.systemPackages = with combinedPkgs; [
     brrtfetch
     ghostty
     wget
-    yaru-theme
     zen-browser
     fastfetch
     vim
