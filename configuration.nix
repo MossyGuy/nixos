@@ -1,28 +1,35 @@
-{ config, pkgs, combinedPkgs, ... }: 
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running ‘nixos-help’).
+
+{ config, pkgs, combinedPkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];  
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.grub = {
+   enable = true;  
+   device = "nodev";
+   efiSupport = true;
+   useOSProber = true;
+  };
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # Kernel.
+  # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
-  # Timezone
+  # Set your time zone.
   time.timeZone = "Europe/Ljubljana";
 
-  # Locale
+  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "sl_SI.UTF-8";
     LC_IDENTIFICATION = "sl_SI.UTF-8";
@@ -35,29 +42,22 @@
     LC_TIME = "sl_SI.UTF-8";
   };
 
-  # Gnome
-  services.gnome.core-apps.enable = true;
+
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
- 
-  # Hyprland
-  programs.hyprland = {
-    enable = true;
-    package = combinedPkgs.hyprland;
-    portalPackage = combinedPkgs.xdg-desktop-portal-hyprland;
-  };  
-
-  # Keyboard layout
-  console.keyMap = "slovene";
+  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "si";
     variant = "";
   };
 
-  # Printing
+  # Configure console keymap
+  console.keyMap = "slovene";
+
+  # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Sound
+  # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -67,26 +67,27 @@
     pulse.enable = true;
   };
 
-  # Users
-  users.users.anon = {
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.gregor = {
     isNormalUser = true;
-    description = "anon";
+    description = "Gregor Pogačnik";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with combinedPkgs; [
-    ];
   };
 
-  # Packages
+  users.users.tilen = {
+    isNormalUser = true;
+    description = "Tilen Pogačnik";
+    extraGroups = [ "networkmanager" "wheel" ];
+  };
+
+  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with combinedPkgs; [
-    brrtfetch
-    ghostty
     wget
-    zen-browser
-    fastfetch
     vim
   ];
 
-  # System version
-  system.stateVersion = "25.05"; 
+  system.stateVersion = "25.05"; # Did you read the comment?
+
 }

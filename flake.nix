@@ -29,7 +29,7 @@
               useGlobalPkgs = true;
               useUserPackages = true;
               backupFileExtension = "backup";
-              users.anon = import ./home.nix;
+              users.tilen = import ./home.nix;
               extraSpecialArgs = { inherit combinedPkgs mango; };
             };
           }

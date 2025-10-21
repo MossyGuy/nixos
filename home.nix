@@ -2,14 +2,28 @@
 
 {
   imports = [ mango.hmModules.mango ];
-  home.username = "anon";
-  home.homeDirectory = "/home/anon";
+  home.username = "tilen";
+  home.homeDirectory = "/home/tilen";
   home.stateVersion = "25.05";
 
   home.packages = with combinedPkgs; [
     gnomeExtensions.dash-to-dock
+    yaru-theme    
+
+    brrtfetch
+    ghostty
+    wget
+    zen-browser
+    fastfetch
+    vim
   ];  
 
+  programs.git = {
+    enable = true;
+    userName = "MossyGuy";
+    userEmail = "tilen@pogacnik.net";
+  };
+  
   wayland.windowManager.mango = {
     enable = true;
     settings = ''
