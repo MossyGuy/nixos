@@ -20,8 +20,8 @@
 
   programs.git = {
     enable = true;
-    userName = "MossyGuy";
-    userEmail = "tilen@pogacnik.net";
+    settings.user.name = "MossyGuy";
+    settings.user.email = "tilen@pogacnik.net";
   };
   
   wayland.windowManager.mango = {

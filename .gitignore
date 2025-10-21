@@ -1,2 +1,2 @@
-hardwareconfiguration.nix
+hardware-configuration.nix
 flake.lock
