@@ -1,11 +1,9 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, combinedPkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+    ./hardware-configuration.nix
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];  
 
@@ -42,9 +40,22 @@
     LC_TIME = "sl_SI.UTF-8";
   };
 
-
-  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      animate = true;
+      animation = 1;
+    };  
+  };
+
+  stylix = {
+    enable = true;
+    autoEnable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark.yaml";
+    polarity = "dark";
+  };
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "si";
@@ -78,6 +89,12 @@
     isNormalUser = true;
     description = "Tilen Pogačnik";
     extraGroups = [ "networkmanager" "wheel" ];
+  };
+
+  hardware.graphics = {
+    enable = true;
+    #driSupport = true;
+    extraPackages = with pkgs; [ mesa egl-wayland intel-media-driver ];
   };
 
   # Allow unfree packages
